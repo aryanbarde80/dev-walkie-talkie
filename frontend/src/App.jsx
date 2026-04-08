@@ -1,8 +1,13 @@
 /**
- * App — Physical Walkie-Talkie UI
+ * App — Main Application Component
+ * 
+ * Single-screen layout with:
+ *   1. Status bar (top)
+ *   2. Room join/info (upper section)
+ *   3. Push-to-talk button (center)
+ *   4. Peer list (bottom)
  */
 
-import { useState } from 'react';
 import StatusBar from './components/StatusBar';
 import JoinRoom from './components/JoinRoom';
 import PushToTalkButton from './components/PushToTalkButton';
@@ -14,73 +19,57 @@ export default function App() {
   const { joinRoom, leaveRoom, startTransmitting, stopTransmitting } = useWalkieTalkie();
 
   return (
-    <div className="h-full w-full bg-[#111] overflow-hidden flex items-center justify-center p-4">
-      {/* The Physical Device Container */}
-      <div className="relative w-full max-w-[420px] h-full max-h-[850px] pt-12">
-        {/* Hardware Decorations */}
-        <div className="antenna" />
-        <div className="knob" />
-        
-        {/* Main Chassis */}
-        <div className="walkie-chassis">
-          
-          {/* LEDs and Brand */}
-          <div className="flex items-center justify-between mb-6 px-2">
-            <div className="flex gap-3">
-              <div className="flex flex-col items-center gap-1">
-                <div className={`led red on`} />
-                <span className="text-[7px] uppercase font-bold text-dark-500">Power</span>
-              </div>
-              <div className="flex flex-col items-center gap-1">
-                <div className={`led green on`} />
-                <span className="text-[7px] uppercase font-bold text-dark-500">Signal</span>
-              </div>
-            </div>
-            
-            <div className="text-right">
-              <h1 className="text-xs font-black tracking-tighter text-dark-400 italic">
-                PRO-TX <span className="text-dark-300">8000</span>
+    <div className="h-full w-full bg-dark-900 noise-bg grid-pattern relative overflow-hidden">
+      {/* Ambient gradient blobs */}
+      <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-neon-green/[0.02] blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[400px] h-[400px] rounded-full bg-neon-blue/[0.03] blur-[100px] pointer-events-none" />
+      <div className="absolute top-[40%] left-[60%] w-[300px] h-[300px] rounded-full bg-neon-purple/[0.02] blur-[80px] pointer-events-none" />
+
+      {/* Main Content */}
+      <div className="relative z-10 h-full flex flex-col px-4 py-4 max-w-lg mx-auto safe-area-inset">
+        {/* Header */}
+        <header className="shrink-0">
+          {/* Logo / Title */}
+          <div className="text-center mb-4 animate-fade-in">
+            <div className="flex items-center justify-center gap-2 mb-1">
+              <div className="w-3 h-3 rounded-sm bg-neon-green shadow-[0_0_10px_rgba(57,255,20,0.4)] animate-pulse" />
+              <h1 className="text-lg font-mono font-bold tracking-[0.15em] text-white">
+                DEV<span className="text-neon-green">WALKIE</span>
               </h1>
             </div>
+            <p className="text-[10px] font-mono text-dark-400 tracking-[0.3em] uppercase">
+              Push-to-Talk • WebRTC
+            </p>
           </div>
 
-          {/* The Digital Screen Area */}
-          <div className="walkie-screen flex-grow-[0.4] flex flex-col">
-            <StatusBar />
-            <div className="flex-grow flex flex-col items-center justify-center p-2">
-               <ErrorBanner />
-               <JoinRoom onJoin={joinRoom} onLeave={leaveRoom} />
-            </div>
-          </div>
+          {/* Status Bar */}
+          <StatusBar />
+        </header>
 
-          {/* Speaker Grill */}
-          <div className="speaker-grill" />
+        {/* Content Area */}
+        <main className="flex-1 flex flex-col items-center justify-center gap-6 py-4 min-h-0">
+          {/* Error Banner */}
+          <ErrorBanner />
 
-          {/* Audio Visualization / Peer List inside internal panel */}
-          <div className="flex-1 overflow-y-auto mb-6 px-2 custom-scrollbar">
-             <PeerList />
-          </div>
+          {/* Room Controls */}
+          <JoinRoom onJoin={joinRoom} onLeave={leaveRoom} />
 
-          {/* Control Section */}
-          <div className="mt-auto mb-4 flex flex-col items-center gap-8">
-            <PushToTalkButton
-              onStartTransmit={startTransmitting}
-              onStopTransmit={stopTransmitting}
-            />
-            
-            {/* Auxiliary tactile buttons */}
-            <div className="flex gap-4 w-full px-4">
-               <button className="tactile-button flex-1 py-3">SCAN</button>
-               <button className="tactile-button flex-1 py-3">MENU</button>
-               <button className="tactile-button flex-1 py-3">FREQ</button>
-            </div>
-          </div>
+          {/* Push-to-Talk Button */}
+          <PushToTalkButton
+            onStartTransmit={startTransmitting}
+            onStopTransmit={stopTransmitting}
+          />
 
-        </div>
+          {/* Peer List */}
+          <PeerList />
+        </main>
 
-        {/* Device Screw heads (Decoration) */}
-        <div className="absolute bottom-5 left-8 w-1.5 h-1.5 rounded-full bg-black/40 border border-white/5" />
-        <div className="absolute bottom-5 right-8 w-1.5 h-1.5 rounded-full bg-black/40 border border-white/5" />
+        {/* Footer */}
+        <footer className="shrink-0 text-center py-2 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+          <p className="text-[9px] font-mono text-dark-500 tracking-widest">
+            v1.0.0 • ENCRYPTED P2P AUDIO
+          </p>
+        </footer>
       </div>
     </div>
   );

@@ -2,186 +2,115 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Hardware Design System ───────────────────────────────────────── */
+/* ─── Base Styles ───────────────────────────────────────────────────── */
 @layer base {
-  :root {
-    --device-body: #1a1b1e;
-    --device-border: #2c2e33;
-    --screen-bg: #0d1210;
-    --screen-text: #39ff14; /* Retro LCD Green */
-    --accent-orange: #ff9100;
+  *, *::before, *::after {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
   }
 
   html, body, #root {
     height: 100%;
     width: 100%;
     overflow: hidden;
-    background-color: #08090a;
   }
 
   body {
-    color: #e0e0e0;
-    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    background-color: #0a0a0f;
+    color: #e0e0f0;
+    font-family: 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
-    user-select: none;
+    -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior: none;
   }
+
+  ::selection {
+    background: rgba(57, 255, 20, 0.2);
+    color: #39ff14;
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #282a42; border-radius: 3px; }
 }
 
-/* ─── Walkie-Talkie Hardware Components ────────────────────────────── */
+/* ─── Components ──────────────────────────────────────────────────── */
 @layer components {
-  /* The main handheld device chassis */
-  .walkie-chassis {
+  .glass {
+    background: rgba(15, 16, 25, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .glass-strong {
+    background: rgba(15, 16, 25, 0.85);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .ptt-button {
     position: relative;
-    background: linear-gradient(145deg, #232529 0%, #16171a 100%);
-    border-radius: 40px;
-    border: 3px solid #000;
-    box-shadow: 
-      inset 0 4px 6px rgba(255,255,255,0.05),
-      0 30px 60px rgba(0,0,0,0.8),
-      0 10px 20px rgba(0,0,0,0.4);
-    padding: 24px;
-    width: 100%;
-    height: 100%;
-    max-height: 800px;
-    display: flex;
-    flex-direction: column;
-    z-index: 10;
+    width: 160px;
+    height: 160px;
+    border-radius: 9999px;
+    border: 3px solid #282a42;
+    background: radial-gradient(circle at 30% 30%, #1e2035, #0f1019);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
   }
 
-  /* The Antenna */
-  .antenna {
+  .ptt-button:hover:not(:disabled) {
+    border-color: #3a3d5c;
+    transform: scale(1.02);
+  }
+
+  .ptt-button.active,
+  .ptt-button:active:not(:disabled) {
+    border-color: #39ff14;
+    background: radial-gradient(circle at 30% 30%, rgba(57,255,20,0.12), #0f1019);
+    transform: scale(0.96);
+    box-shadow: 0 0 30px rgba(57,255,20,0.3), 0 0 80px rgba(57,255,20,0.1), inset 0 0 30px rgba(57,255,20,0.05);
+  }
+
+  .ptt-ring {
     position: absolute;
-    top: -40px;
-    left: 40px;
-    width: 24px;
-    height: 60px;
-    background: linear-gradient(90deg, #111, #333, #111);
-    border-radius: 4px 4px 0 0;
-    z-index: 5;
-  }
-
-  /* The Volume/Channel Knob */
-  .knob {
-    position: absolute;
-    top: -30px;
-    right: 50px;
-    width: 44px;
-    height: 34px;
-    background: linear-gradient(0deg, #111, #222);
-    border-radius: 6px 6px 0 0;
-    border: 2px solid #000;
-    z-index: 5;
-  }
-
-  /* The Digital Screen (LCD) */
-  .walkie-screen {
-    background-color: var(--screen-bg);
-    border: 4px solid #111;
-    border-radius: 12px;
-    box-shadow: inset 0 0 20px rgba(0,0,0,1);
-    padding: 16px;
-    margin-bottom: 24px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .walkie-screen::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(rgba(57, 255, 20, 0.05) 50%, transparent 50%);
-    background-size: 100% 4px;
+    inset: -15px;
+    border-radius: 9999px;
+    border: 2px solid #39ff14;
+    animation: pulseRing 1.5s ease-out infinite;
     pointer-events: none;
   }
 
-  /* The Speaker Grill */
-  .speaker-grill {
-    width: 100%;
-    height: 100px;
-    background-image: radial-gradient(#111 20%, transparent 20%);
-    background-size: 10px 10px;
-    opacity: 0.4;
-    margin-bottom: 24px;
+  .audio-bar {
+    width: 3px;
+    background: #39ff14;
+    border-radius: 2px;
+    animation: wave 0.6s ease-in-out infinite;
+    opacity: 0.85;
+    height: 4px;
   }
 
-  /* Tactile Hardware Buttons */
-  .tactile-button {
-    background: linear-gradient(145deg, #3a3c42, #1a1b1e);
-    border: 2px solid #000;
-    box-shadow: 
-      0 4px 0 #000,
-      inset 0 1px 1px rgba(255,255,255,0.1);
-    border-radius: 8px;
-    color: #999;
-    font-size: 10px;
-    font-weight: bold;
-    text-transform: uppercase;
-    transition: all 0.1s;
-    cursor: pointer;
+  .grid-pattern {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
   }
-
-  .tactile-button:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 0 #000;
-  }
-
-  /* The Big PTT Button */
-  .ptt-hardware {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    background: linear-gradient(145deg, #ce2c2c, #861818);
-    border: 6px solid #000;
-    box-shadow: 
-      0 10px 0 #521010,
-      inset 0 4px 6px rgba(255,255,255,0.2),
-      0 10px 30px rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-weight: 900;
-    font-size: 18px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    transition: all 0.05s;
-    cursor: pointer;
-    touch-action: none;
-  }
-
-  .ptt-hardware:active, .ptt-hardware.active {
-    transform: translateY(6px);
-    box-shadow: 
-      0 4px 0 #521010,
-      inset 0 2px 4px rgba(0,0,0,0.4);
-    background: linear-gradient(145deg, #861818, #ce2c2c);
-  }
-
-  /* LCD Text */
-  .lcd-text {
-    color: var(--screen-text);
-    text-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  /* Status Indicator LEDs */
-  .led {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: 1px solid #000;
-    background: #333;
-  }
-
-  .led.red.on { background: #ff1744; box-shadow: 0 0 10px #ff1744; }
-  .led.green.on { background: #39ff14; box-shadow: 0 0 10px #39ff14; }
-  .led.orange.on { background: #ff9100; box-shadow: 0 0 10px #ff9100; }
 }
 
-@keyframes flicker {
-  0% { opacity: 0.95; }
-  5% { opacity: 0.85; }
-  10% { opacity: 0.95; }
-  100% { opacity: 1; }
+/* ─── Keyframe Animations ───────────────────────────────────────────── */
+@keyframes pulseRing {
+  0%   { transform: scale(0.85); opacity: 0.8; }
+  50%  { transform: scale(1.3);  opacity: 0;   }
+  100% { transform: scale(0.85); opacity: 0;   }
 }
 
-.animate-flicker { animation: flicker 0.1s infinite; }
+@keyframes wave {
+  0%, 100% { height: 4px;  }
+  50%       { height: 24px; }
+}
