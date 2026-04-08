@@ -2,175 +2,186 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Premium Design System ────────────────────────────────────────── */
+/* ─── Hardware Design System ───────────────────────────────────────── */
 @layer base {
   :root {
-    --bg-dark: #020308;
-    --card-dark: #0a0b14;
-    --neon-primary: #39ff14;
-    --neon-secondary: #00d4ff;
-    --neon-accent: #bc13fe;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --border-glass: rgba(255, 255, 255, 0.08);
-  }
-
-  *, *::before, *::after {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
+    --device-body: #1a1b1e;
+    --device-border: #2c2e33;
+    --screen-bg: #0d1210;
+    --screen-text: #39ff14; /* Retro LCD Green */
+    --accent-orange: #ff9100;
   }
 
   html, body, #root {
     height: 100%;
     width: 100%;
     overflow: hidden;
-    background-color: var(--bg-dark);
+    background-color: #08090a;
   }
 
   body {
-    color: var(--text-primary);
-    font-family: 'Inter', system-ui, sans-serif;
+    color: #e0e0e0;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
     -webkit-font-smoothing: antialiased;
-    overscroll-behavior: none;
-  }
-
-  /* Custom Selection */
-  ::selection {
-    background: rgba(57, 255, 20, 0.25);
-    color: var(--neon-primary);
+    user-select: none;
   }
 }
 
-/* ─── Advanced Backgrounds ──────────────────────────────────────────── */
+/* ─── Walkie-Talkie Hardware Components ────────────────────────────── */
 @layer components {
-  .noise-overlay {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .grid-pattern-v2 {
-    background-image: 
-      linear-gradient(rgba(57, 255, 20, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(57, 255, 20, 0.03) 1px, transparent 1px);
-    background-size: 32px 32px;
-    mask-image: radial-gradient(circle at center, black, transparent 80%);
-  }
-
-  /* ─── Premium Glassmorphism ────────────────────────────────────────── */
-  .glass-panel {
-    background: linear-gradient(135deg, rgba(16, 18, 27, 0.7) 0%, rgba(7, 8, 14, 0.8) 100%);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid var(--border-glass);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-  }
-
-  .glass-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-  }
-
-  /* ─── Futuristic PTT Button ────────────────────────────────────────── */
-  .ptt-outer {
+  /* The main handheld device chassis */
+  .walkie-chassis {
     position: relative;
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    padding: 10px;
-    background: linear-gradient(135deg, #1e2035 0%, #07080e 100%);
+    background: linear-gradient(145deg, #232529 0%, #16171a 100%);
+    border-radius: 40px;
+    border: 3px solid #000;
     box-shadow: 
-      inset 0 2px 5px rgba(255,255,255,0.05),
-      0 10px 40px rgba(0,0,0,0.6);
-  }
-
-  .ptt-inner {
+      inset 0 4px 6px rgba(255,255,255,0.05),
+      0 30px 60px rgba(0,0,0,0.8),
+      0 10px 20px rgba(0,0,0,0.4);
+    padding: 24px;
     width: 100%;
     height: 100%;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, #2a2d45 0%, #0a0b14 100%);
-    border: 2px solid #3a3d5c;
+    max-height: 800px;
     display: flex;
     flex-direction: column;
+    z-index: 10;
+  }
+
+  /* The Antenna */
+  .antenna {
+    position: absolute;
+    top: -40px;
+    left: 40px;
+    width: 24px;
+    height: 60px;
+    background: linear-gradient(90deg, #111, #333, #111);
+    border-radius: 4px 4px 0 0;
+    z-index: 5;
+  }
+
+  /* The Volume/Channel Knob */
+  .knob {
+    position: absolute;
+    top: -30px;
+    right: 50px;
+    width: 44px;
+    height: 34px;
+    background: linear-gradient(0deg, #111, #222);
+    border-radius: 6px 6px 0 0;
+    border: 2px solid #000;
+    z-index: 5;
+  }
+
+  /* The Digital Screen (LCD) */
+  .walkie-screen {
+    background-color: var(--screen-bg);
+    border: 4px solid #111;
+    border-radius: 12px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,1);
+    padding: 16px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .walkie-screen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(57, 255, 20, 0.05) 50%, transparent 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+  }
+
+  /* The Speaker Grill */
+  .speaker-grill {
+    width: 100%;
+    height: 100px;
+    background-image: radial-gradient(#111 20%, transparent 20%);
+    background-size: 10px 10px;
+    opacity: 0.4;
+    margin-bottom: 24px;
+  }
+
+  /* Tactile Hardware Buttons */
+  .tactile-button {
+    background: linear-gradient(145deg, #3a3c42, #1a1b1e);
+    border: 2px solid #000;
+    box-shadow: 
+      0 4px 0 #000,
+      inset 0 1px 1px rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: #999;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.1s;
+    cursor: pointer;
+  }
+
+  .tactile-button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #000;
+  }
+
+  /* The Big PTT Button */
+  .ptt-hardware {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #ce2c2c, #861818);
+    border: 6px solid #000;
+    box-shadow: 
+      0 10px 0 #521010,
+      inset 0 4px 6px rgba(255,255,255,0.2),
+      0 10px 30px rgba(0,0,0,0.5);
+    display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #fff;
+    font-weight: 900;
+    font-size: 18px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    transition: all 0.05s;
     cursor: pointer;
-    box-shadow: 
-      0 4px 10px rgba(0,0,0,0.4),
-      inset 0 1px 1px rgba(255,255,255,0.1);
+    touch-action: none;
   }
 
-  .ptt-inner.active {
-    background: radial-gradient(circle at 35% 35%, rgba(57, 255, 20, 0.2) 0%, #0a0b14 100%);
-    border-color: var(--neon-primary);
-    transform: scale(0.94);
+  .ptt-hardware:active, .ptt-hardware.active {
+    transform: translateY(6px);
     box-shadow: 
-      0 0 40px rgba(57, 255, 20, 0.4),
-      inset 0 0 20px rgba(57, 255, 20, 0.1);
+      0 4px 0 #521010,
+      inset 0 2px 4px rgba(0,0,0,0.4);
+    background: linear-gradient(145deg, #861818, #ce2c2c);
   }
 
-  .ptt-ripple {
-    position: absolute;
-    inset: -20px;
-    border: 2px solid var(--neon-primary);
+  /* LCD Text */
+  .lcd-text {
+    color: var(--screen-text);
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Status Indicator LEDs */
+  .led {
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    opacity: 0;
-    pointer-events: none;
+    border: 1px solid #000;
+    background: #333;
   }
 
-  .ptt-inner.active + .ptt-ripple {
-    animation: ripple 1.2s infinite ease-out;
-  }
-
-  /* ─── Dynamic Animations ───────────────────────────────────────────── */
-  @keyframes ripple {
-    0% { transform: scale(0.8); opacity: 0.5; border-width: 4px; }
-    100% { transform: scale(1.4); opacity: 0; border-width: 1px; }
-  }
-
-  @keyframes scanline {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(100vh); }
-  }
-
-  @keyframes pulseThin {
-    0%, 100% { opacity: 0.3; transform: scale(0.95); }
-    50% { opacity: 0.8; transform: scale(1.05); }
-  }
-
-  .scanline {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(to bottom, transparent, var(--neon-primary), transparent);
-    opacity: 0.05;
-    pointer-events: none;
-    animation: scanline 8s linear infinite;
-    z-index: 50;
-  }
-
-  .glow-text-green {
-    text-shadow: 0 0 10px rgba(57, 255, 20, 0.5), 0 0 20px rgba(57, 255, 20, 0.2);
-  }
-
-  .glow-text-blue {
-    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5), 0 0 20px rgba(0, 212, 255, 0.2);
-  }
-
-  /* Audio Wave Visualizer Upgrade */
-  .audio-visualizer-bar {
-    width: 4px;
-    border-radius: 4px;
-    background: linear-gradient(to top, var(--neon-primary), var(--neon-secondary));
-    box-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
-  }
-
-  /* Safe Area for Mobile */
-  .safe-area-bottom {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
+  .led.red.on { background: #ff1744; box-shadow: 0 0 10px #ff1744; }
+  .led.green.on { background: #39ff14; box-shadow: 0 0 10px #39ff14; }
+  .led.orange.on { background: #ff9100; box-shadow: 0 0 10px #ff9100; }
 }
+
+@keyframes flicker {
+  0% { opacity: 0.95; }
+  5% { opacity: 0.85; }
+  10% { opacity: 0.95; }
+  100% { opacity: 1; }
+}
+
+.animate-flicker { animation: flicker 0.1s infinite; }
