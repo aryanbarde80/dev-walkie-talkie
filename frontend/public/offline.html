@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0f" />
+  <title>Dev Walkie-Talkie — Offline</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'JetBrains Mono', monospace, system-ui;
+      background: #0a0a0f;
+      color: #b0b5d9;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .container { max-width: 400px; }
+    .icon { font-size: 4rem; margin-bottom: 1.5rem; opacity: 0.6; }
+    h1 { font-size: 1.2rem; color: #fff; margin-bottom: 0.5rem; letter-spacing: 0.1em; }
+    p { font-size: 0.75rem; color: #5a5f8a; line-height: 1.8; letter-spacing: 0.05em; }
+    .retry-btn {
+      margin-top: 2rem;
+      padding: 0.75rem 2rem;
+      background: rgba(57, 255, 20, 0.1);
+      border: 1px solid rgba(57, 255, 20, 0.3);
+      color: #39ff14;
+      font-family: inherit;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .retry-btn:hover {
+      background: rgba(57, 255, 20, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">📡</div>
+    <h1>SIGNAL LOST</h1>
+    <p>You are currently offline.<br/>Walkie-talkie requires an active connection<br/>to communicate with peers.</p>
+    <button class="retry-btn" onclick="location.reload()">RETRY CONNECTION</button>
+  </div>
+</body>
+</html>

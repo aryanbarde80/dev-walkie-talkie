@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#39ff14"/>
+      <stop offset="100%" stop-color="#00d4ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="20" fill="#0a0a0f"/>
+  <circle cx="50" cy="38" r="14" fill="none" stroke="url(#g)" stroke-width="3"/>
+  <rect x="47" y="24" width="6" height="28" rx="3" fill="url(#g)"/>
+  <path d="M 32 45 Q 32 60 50 60 Q 68 60 68 45" fill="none" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="50" y1="60" x2="50" y2="70" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="40" y1="70" x2="60" y2="70" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/>
+  <!-- Signal waves -->
+  <path d="M 20 25 Q 15 38 20 50" fill="none" stroke="#39ff14" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  <path d="M 14 20 Q 7 38 14 55" fill="none" stroke="#39ff14" stroke-width="2" stroke-linecap="round" opacity="0.2"/>
+  <path d="M 80 25 Q 85 38 80 50" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  <path d="M 86 20 Q 93 38 86 55" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" opacity="0.2"/>
+</svg>
